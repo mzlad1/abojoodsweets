@@ -176,7 +176,7 @@ const Cart = () => {
                 نعم، إتمام الطلب
               </button>
               <button
-                className="cancel-btn"
+                className="cart-cancel-btn"
                 onClick={() => setShowConfirm(false)}
               >
                 إلغاء

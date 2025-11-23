@@ -32,6 +32,9 @@ const PartnersManager = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentPartner, setCurrentPartner] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [partnersPerPage] = useState(12);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -203,6 +206,27 @@ const PartnersManager = () => {
     );
   }
 
+  // Filter and pagination logic
+  const filteredPartners = partners.filter((partner) =>
+    partner.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastPartner = currentPage * partnersPerPage;
+  const indexOfFirstPartner = indexOfLastPartner - partnersPerPage;
+  const currentPartners = filteredPartners.slice(
+    indexOfFirstPartner,
+    indexOfLastPartner
+  );
+  const totalPages = Math.ceil(filteredPartners.length / partnersPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="partners-manager-section">
       {alert && <CustomAlert {...alert} />}
@@ -213,37 +237,87 @@ const PartnersManager = () => {
         </button>
       </div>
 
-      {partners.length === 0 ? (
+      <div className="search-filter-section">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="البحث عن شريك..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+      </div>
+
+      {filteredPartners.length === 0 ? (
         <div className="partners-empty-state">
-          <p>لا يوجد شركاء حالياً</p>
+          <p>{searchTerm ? "لا توجد نتائج للبحث" : "لا يوجد شركاء حالياً"}</p>
         </div>
       ) : (
-        <div className="partners-grid">
-          {partners.map((partner) => (
-            <div key={partner.id} className="partner-card">
-              <div className="partner-logo">
-                <img src={partner.logo} alt={partner.name} />
+        <>
+          <div className="partners-grid">
+            {currentPartners.map((partner) => (
+              <div key={partner.id} className="partner-card">
+                <div className="partner-logo">
+                  <img src={partner.logo} alt={partner.name} />
+                </div>
+                <div className="partner-info">
+                  <h3>{partner.name}</h3>
+                </div>
+                <div className="partner-actions">
+                  <button
+                    className="partner-edit-btn"
+                    onClick={() => handleEdit(partner)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} /> تعديل
+                  </button>
+                  <button
+                    className="partner-delete-btn"
+                    onClick={() => handleDelete(partner.id, partner.logo)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} /> حذف
+                  </button>
+                </div>
               </div>
-              <div className="partner-info">
-                <h3>{partner.name}</h3>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="pagination-btn"
+                onClick={prevPage}
+                disabled={currentPage === 1}
+              >
+                السابق
+              </button>
+
+              <div className="pagination-numbers">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index + 1}
+                    className={`pagination-number ${
+                      currentPage === index + 1 ? "active" : ""
+                    }`}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
               </div>
-              <div className="partner-actions">
-                <button
-                  className="partner-edit-btn"
-                  onClick={() => handleEdit(partner)}
-                >
-                  <FontAwesomeIcon icon={faEdit} /> تعديل
-                </button>
-                <button
-                  className="partner-delete-btn"
-                  onClick={() => handleDelete(partner.id, partner.logo)}
-                >
-                  <FontAwesomeIcon icon={faTrash} /> حذف
-                </button>
-              </div>
+
+              <button
+                className="pagination-btn"
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+              >
+                التالي
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {showModal && (

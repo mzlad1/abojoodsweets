@@ -32,6 +32,8 @@ const ProductsManager = () => {
   const [additionalImagesPreview, setAdditionalImagesPreview] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
   const { alert, showSuccess, showError, showConfirm } = useAlert();
   const [formData, setFormData] = useState({
     name: "",
@@ -391,14 +393,25 @@ const ProductsManager = () => {
     );
   }
 
+  // Filter and search logic
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory
+      ? product.origin === filterCategory
+      : true;
+    return matchesSearch && matchesCategory;
+  });
+
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => {
@@ -411,11 +424,39 @@ const ProductsManager = () => {
   return (
     <div className="products-manager">
       <div className="manager-header">
-        <h2>المنتجات ({products.length})</h2>
+        <h2>المنتجات ({filteredProducts.length})</h2>
         <button className="add-btn" onClick={() => openModal()}>
           <FontAwesomeIcon icon={faPlus} />
           <span>إضافة منتج جديد</span>
         </button>
+      </div>
+
+      <div className="search-filter-section">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="البحث عن منتج..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+        <select
+          className="filter-select"
+          value={filterCategory}
+          onChange={(e) => {
+            setFilterCategory(e.target.value);
+            setCurrentPage(1);
+          }}
+        >
+          <option value="">جميع الفئات</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="products-table">
@@ -869,13 +910,13 @@ const ProductsManager = () => {
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="save-btn">
+                <button type="submit" className="products-save-btn">
                   <FontAwesomeIcon icon={faSave} />
                   <span>حفظ</span>
                 </button>
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className="products-cancel-btn"
                   onClick={closeModal}
                 >
                   إلغاء

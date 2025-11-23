@@ -28,6 +28,7 @@ const CategoriesManager = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const { alert, showSuccess, showError, showConfirm } = useAlert();
   const [formData, setFormData] = useState({
     name: "",
@@ -168,14 +169,29 @@ const CategoriesManager = () => {
     );
   }
 
+  // Filter categories based on search
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="products-manager">
       <div className="manager-header">
-        <h2>الفئات ({categories.length})</h2>
+        <h2>الفئات ({filteredCategories.length})</h2>
         <button className="add-btn" onClick={() => openModal()}>
           <FontAwesomeIcon icon={faPlus} />
           <span>إضافة فئة جديدة</span>
         </button>
+      </div>
+
+      <div className="search-filter-section">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="البحث عن فئة..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       <div className="products-table">
@@ -187,7 +203,7 @@ const CategoriesManager = () => {
             </tr>
           </thead>
           <tbody>
-            {categories.map((category) => (
+            {filteredCategories.map((category) => (
               <tr key={category.id}>
                 <td>{category.name}</td>
                 <td>

@@ -27,6 +27,8 @@ const GalleryManager = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [imagesPerPage] = useState(20);
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -163,11 +165,25 @@ const GalleryManager = () => {
     );
   }
 
+  // Pagination logic
+  const indexOfLastImage = currentPage * imagesPerPage;
+  const indexOfFirstImage = indexOfLastImage - imagesPerPage;
+  const currentImages = images.slice(indexOfFirstImage, indexOfLastImage);
+  const totalPages = Math.ceil(images.length / imagesPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="gallery-manager-section">
       {alert && <CustomAlert {...alert} />}
       <div className="gallery-manager-header">
-        <h2>إدارة معرض الصور</h2>
+        <h2>إدارة معرض الصور ({images.length})</h2>
         <button className="gallery-add-btn" onClick={() => setShowModal(true)}>
           <FontAwesomeIcon icon={faPlus} /> إضافة صورة
         </button>
@@ -178,25 +194,62 @@ const GalleryManager = () => {
           <p>لا توجد صور في المعرض حالياً</p>
         </div>
       ) : (
-        <div className="gallery-images-grid">
-          {images.map((image) => (
-            <div key={image.id} className="gallery-image-card">
-              <div className="gallery-image-preview">
-                {image.type === "video" ? (
-                  <video src={image.imageUrl} controls muted />
-                ) : (
-                  <img src={image.imageUrl} alt="Gallery" />
-                )}
-                <button
-                  className="gallery-delete-btn-overlay"
-                  onClick={() => handleDelete(image.id, image.imageUrl)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
+        <>
+          <div className="gallery-images-grid">
+            {currentImages.map((image) => (
+              <div key={image.id} className="gallery-image-card">
+                <div className="gallery-image-preview">
+                  {image.type === "video" ? (
+                    <video src={image.imageUrl} controls muted />
+                  ) : (
+                    <img src={image.imageUrl} alt="Gallery" />
+                  )}
+                  <button
+                    className="gallery-delete-btn-overlay"
+                    onClick={() => handleDelete(image.id, image.imageUrl)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="pagination-btn"
+                onClick={prevPage}
+                disabled={currentPage === 1}
+              >
+                السابق
+              </button>
+
+              <div className="pagination-numbers">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index + 1}
+                    className={`pagination-number ${
+                      currentPage === index + 1 ? "active" : ""
+                    }`}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="pagination-btn"
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+              >
+                التالي
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {showModal && (

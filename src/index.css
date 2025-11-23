@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "Brando";
+  src: url("/Brando_Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --primary-color: #d4a762;
   --secondary-color: #8b4513;
@@ -7,7 +14,8 @@
   --bg-light: #faf8f5;
   --bg-white: #ffffff;
   --white: #ffffff;
-  font-family: "Cairo", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Brando", "Cairo", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
 }
 
 * {
@@ -17,7 +25,8 @@
 }
 
 body {
-  font-family: "Cairo", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Brando", "Cairo", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
   background-color: var(--bg-light);
   color: var(--text-dark);
   line-height: 1.6;

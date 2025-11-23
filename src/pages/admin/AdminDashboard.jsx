@@ -11,7 +11,6 @@ import {
   faBars,
   faTimes,
   faList,
-  faDatabase,
   faHandshake,
   faImages,
 } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +18,6 @@ import ProductsManager from "../../components/admin/ProductsManager";
 import OffersManager from "../../components/admin/OffersManager";
 import UsersManager from "../../components/admin/UsersManager";
 import CategoriesManager from "../../components/admin/CategoriesManager";
-import DatabaseSeeder from "../../components/admin/DatabaseSeeder";
 import PartnersManager from "../../components/admin/PartnersManager";
 import GalleryManager from "../../components/admin/GalleryManager";
 import "./AdminDashboard.css";
@@ -45,7 +43,6 @@ const AdminDashboard = () => {
     { id: "partners", label: "إدارة الشركاء", icon: faHandshake },
     { id: "gallery", label: "معرض الصور", icon: faImages },
     { id: "users", label: "إدارة المستخدمين", icon: faUsers },
-    { id: "seeder", label: "إضافة البيانات", icon: faDatabase },
   ];
 
   return (
@@ -61,7 +58,11 @@ const AdminDashboard = () => {
       <div className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
         <div className="sidebar-header">
           <div className="dashboard-logo">
-            <div className="logo-circle">AJ</div>
+            <img
+              src="/assets/abojoodlogo.png"
+              alt="حلويات أبو الجود"
+              className="logo-image"
+            />{" "}
             {sidebarOpen && <h2>لوحة التحكم</h2>}
           </div>
           <button
@@ -125,7 +126,6 @@ const AdminDashboard = () => {
           {activeTab === "partners" && <PartnersManager />}
           {activeTab === "gallery" && <GalleryManager />}
           {activeTab === "users" && <UsersManager />}
-          {activeTab === "seeder" && <DatabaseSeeder />}
         </div>
       </div>
     </div>
