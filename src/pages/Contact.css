@@ -195,4 +195,8 @@
     border-right: none;
     border-top: 5px solid var(--primary-color);
   }
+
+   .contact-page {
+    padding: 0;
+  }
 }

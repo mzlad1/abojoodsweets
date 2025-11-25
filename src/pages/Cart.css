@@ -362,4 +362,8 @@
   .empty-cart h2 {
     font-size: 1.5rem;
   }
+  .cart-page {
+  padding: 0;
+  }
 }
+  

@@ -10,6 +10,7 @@ const Gallery = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [filterType, setFilterType] = useState("all");
 
   useEffect(() => {
     fetchImages();
@@ -41,6 +42,14 @@ const Gallery = () => {
     setSelectedImage(null);
   };
 
+  // Filter images based on selected type
+  const filteredImages = images.filter((image) => {
+    if (filterType === "all") return true;
+    if (filterType === "images") return image.type !== "video";
+    if (filterType === "videos") return image.type === "video";
+    return true;
+  });
+
   if (loading) {
     return (
       <div className="gallery-page">
@@ -60,7 +69,7 @@ const Gallery = () => {
           transition={{ duration: 0.6 }}
         >
           <FontAwesomeIcon icon={faImages} className="gallery-header-icon" />
-          <h1>معرض الصور</h1>
+          <h1>المعرض</h1>
           <p>لحظات مميزة من مناسباتكم السعيدة</p>
         </motion.div>
       </div>
@@ -72,30 +81,62 @@ const Gallery = () => {
         </div>
       ) : (
         <div className="container">
-          <div className="gallery-masonry">
-            {images.map((image, index) => (
-              <motion.div
-                key={image.id}
-                className="gallery-masonry-item"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                onClick={() => openLightbox(image)}
-              >
-                {image.type === "video" ? (
-                  <>
-                    <video src={image.imageUrl} muted />
-                    <div className="video-play-icon">
-                      <FontAwesomeIcon icon={faPlay} />
-                    </div>
-                  </>
-                ) : (
-                  <img src={image.imageUrl} alt="Gallery" />
-                )}
-              </motion.div>
-            ))}
+          <div className="gallery-filter">
+            <button
+              className={`filter-btn ${filterType === "all" ? "active" : ""}`}
+              onClick={() => setFilterType("all")}
+            >
+              الكل ({images.length})
+            </button>
+            <button
+              className={`filter-btn ${
+                filterType === "images" ? "active" : ""
+              }`}
+              onClick={() => setFilterType("images")}
+            >
+              الصور ({images.filter((img) => img.type !== "video").length})
+            </button>
+            <button
+              className={`filter-btn ${
+                filterType === "videos" ? "active" : ""
+              }`}
+              onClick={() => setFilterType("videos")}
+            >
+              الفيديوهات ({images.filter((img) => img.type === "video").length})
+            </button>
           </div>
+
+          {filteredImages.length === 0 ? (
+            <div className="gallery-empty">
+              <FontAwesomeIcon icon={faImages} />
+              <p>لا توجد نتائج</p>
+            </div>
+          ) : (
+            <div className="gallery-masonry">
+              {filteredImages.map((image, index) => (
+                <motion.div
+                  key={image.id}
+                  className="gallery-masonry-item"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  onClick={() => openLightbox(image)}
+                >
+                  {image.type === "video" ? (
+                    <>
+                      <video src={image.imageUrl} muted />
+                      <div className="video-play-icon">
+                        <FontAwesomeIcon icon={faPlay} />
+                      </div>
+                    </>
+                  ) : (
+                    <img src={image.imageUrl} alt="Gallery" />
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

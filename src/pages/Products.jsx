@@ -167,13 +167,19 @@ const Products = () => {
                 >
                   <Link to={`/product/${product.id}`}>
                     <div className="product-image">
-                      <img src={product.mainImage} alt={product.name} />
+                      <img
+                        src={product.mainImage}
+                        alt={product.name}
+                        onError={(e) => {
+                          e.target.src = "/assets/placeholder.png";
+                        }}
+                      />
                     </div>
                     <div className="product-info">
                       <h3>{product.name}</h3>
                       {product.hasVariants && product.variants?.length > 0 ? (
                         <div className="product-price">
-                          <span className="price-from">من</span>
+                          <span className="price-from">يبدأ من</span>
                           <span className="price-value">
                             {Math.min(...product.variants.map((v) => v.price))}{" "}
                             ₪
@@ -198,7 +204,7 @@ const Products = () => {
             </div>
 
             {totalPages > 1 && (
-              <div className="pagination">
+              <div className="products-pagination">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (number) => (
                     <button

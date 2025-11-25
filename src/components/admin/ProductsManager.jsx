@@ -480,6 +480,9 @@ const ProductsManager = () => {
                     src={product.mainImage}
                     alt={product.name}
                     className="product-thumbnail"
+                    onError={(e) => {
+                      e.target.src = "/assets/placeholder.png";
+                    }}
                   />
                 </td>
                 <td>{product.name}</td>

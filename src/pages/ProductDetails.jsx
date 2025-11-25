@@ -177,7 +177,13 @@ const ProductDetails = () => {
             animate={{ opacity: 1, x: 0 }}
           >
             <div className="main-image" onClick={() => setShowFullImage(true)}>
-              <img src={selectedImage} alt={product.name} />
+              <img
+                src={selectedImage}
+                alt={product.name}
+                onError={(e) => {
+                  e.target.src = "/assets/placeholder.png";
+                }}
+              />
             </div>
             {allImages.length > 1 && (
               <div className="thumbnail-gallery">
@@ -189,7 +195,13 @@ const ProductDetails = () => {
                     }`}
                     onClick={() => setSelectedImage(image)}
                   >
-                    <img src={image} alt={`${product.name} ${index + 1}`} />
+                    <img
+                      src={image}
+                      alt={`${product.name} ${index + 1}`}
+                      onError={(e) => {
+                        e.target.src = "/assets/placeholder.png";
+                      }}
+                    />
                   </div>
                 ))}
               </div>
@@ -336,7 +348,13 @@ const ProductDetails = () => {
               >
                 ×
               </button>
-              <img src={selectedImage} alt={product.name} />
+              <img
+                src={selectedImage}
+                alt={product.name}
+                onError={(e) => {
+                  e.target.src = "/assets/placeholder.png";
+                }}
+              />
             </div>
           </div>
         )}

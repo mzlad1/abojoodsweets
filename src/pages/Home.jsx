@@ -194,7 +194,13 @@ const Home = () => {
                 >
                   <Link to={`/product/${product.id}`}>
                     <div className="product-image">
-                      <img src={product.mainImage} alt={product.name} />
+                      <img
+                        src={product.mainImage}
+                        alt={product.name}
+                        onError={(e) => {
+                          e.target.src = "/assets/placeholder.png";
+                        }}
+                      />
                     </div>
                     <div className="product-info">
                       <h3>{product.name}</h3>

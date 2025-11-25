@@ -94,7 +94,36 @@
   justify-content: center;
 }
 
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cart-link-mobile {
+  display: none;
+  position: relative;
+  color: var(--secondary-color);
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+.cart-link-mobile:hover,
+.cart-link-mobile.active {
+  color: var(--primary-color);
+}
+
 @media (max-width: 768px) {
+  .cart-link-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-link-desktop {
+    display: none;
+  }
+
   .menu-toggle {
     display: block;
   }

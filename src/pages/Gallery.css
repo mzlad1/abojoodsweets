@@ -48,6 +48,37 @@
   font-size: 1.2rem;
 }
 
+.gallery-filter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.gallery-filter .filter-btn {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid var(--accent-color);
+  background: var(--bg-white);
+  color: var(--text-dark);
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gallery-filter .filter-btn:hover {
+  background: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.gallery-filter .filter-btn.active {
+  background: var(--primary-color);
+  color: var(--text-light);
+  border-color: var(--primary-color);
+}
+
 .gallery-masonry {
   column-count: 4;
   column-gap: 1.5rem;
@@ -223,7 +254,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .gallery-page {
-    padding-top: 60px;
+    padding-top: 0;
   }
 
   .gallery-header {

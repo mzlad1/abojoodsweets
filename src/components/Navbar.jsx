@@ -41,9 +41,23 @@ const Navbar = () => {
           <span className="logo-text">حلويات أبو الجود</span>
         </Link>
 
-        <button className="menu-toggle" onClick={toggleMenu}>
-          <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
-        </button>
+        <div className="navbar-actions">
+          <Link
+            to="/cart"
+            className={`cart-link-mobile ${
+              location.pathname === "/cart" ? "active" : ""
+            }`}
+          >
+            <FontAwesomeIcon icon={faShoppingCart} />
+            {getTotalItems() > 0 && (
+              <span className="cart-badge">{getTotalItems()}</span>
+            )}
+          </Link>
+
+          <button className="menu-toggle" onClick={toggleMenu}>
+            <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+          </button>
+        </div>
 
         <ul className={`navbar-menu ${isOpen ? "active" : ""}`}>
           <li>
@@ -64,7 +78,7 @@ const Navbar = () => {
               to="/gallery"
               className={location.pathname === "/gallery" ? "active" : ""}
             >
-              معرض الصور
+              المعرض
             </Link>
           </li>
           <li>
@@ -83,7 +97,7 @@ const Navbar = () => {
               تواصل معنا
             </Link>
           </li>
-          <li>
+          <li className="cart-link-desktop">
             <Link
               to="/cart"
               className={`cart-link ${
