@@ -1,0 +1,156 @@
+.custom-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.custom-alert-box {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  position: relative;
+  text-align: center;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.alert-close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: transparent;
+  color: #999;
+  font-size: 1.2rem;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.alert-close-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.alert-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.alert-message {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.alert-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.alert-btn {
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.alert-btn-ok {
+  background: var(--primary-color);
+  color: white;
+  min-width: 120px;
+}
+
+.alert-btn-ok:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.alert-btn-confirm {
+  background: #28a745;
+  color: white;
+  flex: 1;
+}
+
+.alert-btn-confirm:hover {
+  background: #218838;
+}
+
+.alert-btn-cancel {
+  background: #6c757d;
+  color: white;
+  flex: 1;
+}
+
+.alert-btn-cancel:hover {
+  background: #5a6268;
+}
+
+@media (max-width: 480px) {
+  .custom-alert-box {
+    padding: 1.5rem;
+  }
+
+  .alert-icon {
+    font-size: 3rem;
+  }
+
+  .alert-message {
+    font-size: 1rem;
+  }
+
+  .alert-actions {
+    flex-direction: column;
+  }
+
+  .alert-btn {
+    width: 100%;
+  }
+}

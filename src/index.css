@@ -1,0 +1,76 @@
+@font-face {
+  font-family: "Brando";
+  src: url("/Brando_Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --primary-color: #d4a762;
+  --secondary-color: #8b4513;
+  --accent-color: #e6b873;
+  --text-dark: #2c1810;
+  --text-light: #ffffff;
+  --bg-light: #faf8f5;
+  --bg-white: #ffffff;
+  --white: #ffffff;
+  font-family: "Brando", "Cairo", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Brando", "Cairo", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  direction: rtl;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
